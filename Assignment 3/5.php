@@ -1,27 +1,30 @@
 <?php
-function isArmstrong($number) {
-    $originalNumber = $number;
+
+function Armstrong($number) {
     $sum = 0;
-    $digits = strlen((string)$number);
+    $temp = $number;
+    $length = 0;
 
-    while ($number != 0) {
-        $digit = $number % 10;
-        $sum += pow($digit, $digits);
-        $number = (int)($number / 10);
+    while ($temp != 0) {
+        $temp = (int)($temp / 10);
+        $length++;
     }
 
-    if ($sum == $originalNumber) {
-        return true;
+    $temp = $number;
+
+    while ($temp != 0) {
+        $digit = $temp % 10;
+        $sum += pow($digit, $length);
+        $temp = (int)($temp / 10);
+    }
+
+    if ($sum == $number) {
+        return $number . " is an Armstrong number.";
     } else {
-        return false;
+        return $number . " is not an Armstrong number.";
     }
 }
 
-$number = 153;
+echo Armstrong(146511208);
 
-if (isArmstrong($number)) {
-    echo "$number is an Armstrong number.";
-} else {
-    echo "$number is not an Armstrong number.";
-}
 ?>
