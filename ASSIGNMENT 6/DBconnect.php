@@ -25,7 +25,7 @@ VALUES
 ('E003', 'Priya', 28),
 ('E004', 'Neha', 26),
 ('E005', 'Vikram', 35),
-('EOO6', 'Rahul', 25);";
+('E006', 'Rahul', 25);";
 
 
 $execution1 = mysqli_query($con, $query2);
@@ -34,4 +34,13 @@ if ($execution1) {
 } else {
     echo "Not inserted";
 }
+
+$query3 = "UPDATE `Tata` SET `eage` = `eage` + 1 WHERE 1";
+$execution2 = mysqli_query($con, $query3);
+if ($execution2) {
+    echo "<br>Age updated successfully";
+} else {
+    echo "<br>Age update failed";
+}
+
 ?>
