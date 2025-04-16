@@ -1,52 +1,66 @@
 <?php
+// Base class
 class BCA {
+    // Data members (at least one private, one protected)
     private $name;
-    private $rollno;
+    protected $rollno;
     protected $age;
-    public $gender;
-    
-    public function __construct($name, $rollno, $age, $gender) {
+    protected $gender;
+
+    // Public function to set BCA student details
+    public function setBCAData($name, $rollno, $age, $gender) {
         $this->name = $name;
         $this->rollno = $rollno;
         $this->age = $age;
         $this->gender = $gender;
     }
-    
-    public function setDetails($rollno, $age, $gender) {
-        $this->rollno = $rollno;
-        $this->age = $age;
-        $this->gender = $gender;
-    }
-    
+
+    // Public function to get student name (used in derived class)
     public function getName() {
         return $this->name;
     }
-    
-    public function displayBCA() {
-        echo "BCA Student: $this->name, Roll No: $this->rollno, Age: $this->age, Gender: $this->gender\n";
+
+    // Public function to display BCA student data
+    public function displayBCAData() {
+        echo "<h3>BCA Student Details:</h3>";
+        echo "Name: " . $this->name . "<br>";
+        echo "Roll No: " . $this->rollno . "<br>";
+        echo "Age: " . $this->age . "<br>";
+        echo "Gender: " . $this->gender . "<br>";
     }
 }
 
+// Derived class
 class MCA extends BCA {
+    // Private data members
     private $mcaroll;
     private $mobile;
-    
-    public function __construct($name, $rollno, $age, $gender, $mcaroll, $mobile) {
-        parent::__construct($name, $rollno, $age, $gender);
+
+    // Public function to set MCA data
+    public function setMCAData($mcaroll, $mobile) {
         $this->mcaroll = $mcaroll;
         $this->mobile = $mobile;
     }
-    
-    public function setMCA($mcaroll, $mobile) {
-        $this->mcaroll = $mcaroll;
-        $this->mobile = $mobile;
-    }
-    
-    public function displayMCA() {
-        echo "MCA Student: " . $this->getName() . ", MCA Roll No: $this->mcaroll, Mobile: $this->mobile\n";
+
+    // Public function to display MCA data (using inherited name)
+    public function displayMCAData() {
+        echo "<h3>MCA Student Details:</h3>";
+        echo "Name (Inherited): " . $this->getName() . "<br>";
+        echo "MCA Roll No: " . $this->mcaroll . "<br>";
+        echo "Mobile: " . $this->mobile . "<br>";
     }
 }
 
-$mcaStudent = new MCA("John Doe", 101, 22, "Male", 5001, "9876543210");
-$mcaStudent->displayMCA();
+// ---------- MAIN PROGRAM ----------
+
+// Create object of derived class only
+$student = new MCA();
+
+// Set data using derived class functions
+$student->setBCAData("Aarav", "BCA101", 20, "Male");
+$student->setMCAData("MCA202", "9876543210");
+
+// Display all data
+$student->displayBCAData();
+$student->displayMCAData();
 ?>
