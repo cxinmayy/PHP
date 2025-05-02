@@ -26,13 +26,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
     $updateQuery = "UPDATE `productinfo` SET 
                     proname='$pname', 
                     prodes='$pdesc', 
-                    proqty=proqty+'$pqty' 
+                    proqty='$pqty' 
                     WHERE proid='$pid'";
 
     if (mysqli_query($con, $updateQuery)) {
         echo "<script>alert('Product Updated Successfully!'); window.location.href='seller_dash.php';</script>";
     } else {
         echo "<script>alert('Update Failed!');</script>";
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['buy'])) {
+    $pid = $_POST['proid'];
+    $buyqty = (int)$_POST['buyqty'];
+
+    $check = mysqli_query($con, "SELECT proqty FROM productinfo WHERE proid='$pid'");
+    $data = mysqli_fetch_assoc($check);
+    $availableQty = (int)$data['proqty'];
+
+    if ($buyqty > 0 && $buyqty <= $availableQty) {
+        $newQty = $availableQty - $buyqty;
+        $updateQty = mysqli_query($con, "UPDATE productinfo SET proqty='$newQty' WHERE proid='$pid'");
+        if ($updateQty) {
+            echo "<script>alert('Purchase successful!'); window.location.href='seller_dash.php';</script>";
+        } else {
+            echo "<script>alert('Failed to update quantity.');</script>";
+        }
+    } else {
+        echo "<script>alert('Invalid quantity');</script>";
     }
 }
 ?>
@@ -101,6 +122,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
                 <button type="submit" name="update" class="btn btn-primary">Update Product</button>
                 
             </form>
+
+            <form method="post" style="margin-top: 30px;">
+            <input type="hidden" name="proid" value="<?= $product['proid']; ?>">
+            <div class="form-group">
+                <label>Buy Quantity (Available: <?= $product['proqty']; ?>)</label>
+                <input type="number" name="buyqty" required min="1" max="<?= $product['proqty']; ?>">
+            </div>
+            <button type="submit" name="buy" class="btn btn-success">Buy Product</button>
+        </form>
         <?php endif; ?>
     </div>
 
